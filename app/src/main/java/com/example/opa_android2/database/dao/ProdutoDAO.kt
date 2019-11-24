@@ -1,27 +1,24 @@
 package com.example.opa_android2.database.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.opa_android2.model.Produto
 
 @Dao
 interface ProdutoDAO {
 
     @Query("SELECT * FROM produto ORDER BY id ASC")
-    fun all() : LiveData<List<Produto>>
+    fun findAll() : List<Produto>
+
+    @Query("SELECT * FROM produto")
+    fun getById(id:Long): Produto?
 
     @Insert
-    fun add(vararg produto: Produto)
+    fun insert(produto: Produto)
 
-//    @Query("DELETE FROM produto WHERE id = :id")
-//    fun deleteProduto(Produto produto)
+    @Update
+    fun update(produto: Produto)
 
-    @Query("DELETE FROM produto")
-    suspend fun deleteAll()
-
-
-
+    @Delete
+    fun delete(produto : Produto)
 }

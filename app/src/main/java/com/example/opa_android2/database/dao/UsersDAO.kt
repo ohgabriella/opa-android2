@@ -3,7 +3,6 @@ package com.example.opa_android2.database.dao
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import com.example.opa_android2.model.User
 
 @Dao
 interface UsersDAO  {
