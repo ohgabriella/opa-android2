@@ -10,7 +10,7 @@ interface ProdutoDAO {
     @Query("SELECT * FROM produto ORDER BY id ASC")
     fun findAll() : List<Produto>
 
-    @Query("SELECT * FROM produto")
+    @Query("SELECT * FROM produto where id = :id")
     fun getById(id:Long): Produto?
 
     @Insert

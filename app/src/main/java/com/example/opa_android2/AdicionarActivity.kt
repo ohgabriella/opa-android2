@@ -4,10 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.opa_android2.database.ProdutoService
 import com.example.opa_android2.model.Produto
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 class AdicionarActivity : AppCompatActivity() {
 
@@ -28,22 +32,23 @@ class AdicionarActivity : AppCompatActivity() {
         cadastrarButton = findViewById(R.id.cadastrarButton)
 
         cadastrarButton.setOnClickListener {
-            val replyIntent = Intent()
             if (inputNome.text.isNotEmpty() && inputPreco.text.isNotEmpty() && inputQtd.text.isNotEmpty() && inputDesc.text.isNotEmpty()) {
                 var nome = inputNome.text.toString()
                 var preco = inputPreco.text.toString()
                 var qtd = inputQtd.text.toString()
                 var desc = inputDesc.text.toString()
 
-                var produto = Produto(0, nome, preco, qtd, desc)
+                var produto = Produto()
+                produto.nome = nome
+                produto.preco = preco
+                produto.quantidade = qtd
+                produto.descricao = desc
 
-//                replyIntent.putExtra(EXTRA_REPLY, produto)
+                inserir(produto)
 
-                replyIntent.putExtra("produto", produto)
+                val intent = Intent(AdicionarActivity@ this, ListActivity::class.java)
+                startActivity(intent)
 
-                setResult(Activity.RESULT_OK, replyIntent)
-
-                finish()
             } else {
                 Toast.makeText(AdicionarActivity@ this, "Preencha os campos", Toast.LENGTH_LONG)
                     .show()
@@ -51,7 +56,13 @@ class AdicionarActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"
+    fun inserir(produto: Produto) {
+        doAsync {
+            ProdutoService.inserirProduto(produto)
+            uiThread {
+                Log.e("ListActivity", "Produto inserido com Sucesso!")
+            }
+        }
     }
 }
+

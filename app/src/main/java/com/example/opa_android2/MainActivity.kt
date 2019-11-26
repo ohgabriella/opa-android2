@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(MainActivity@this, ListActivity::class.java)
                 startActivity(intent)
             }else{
-                Toast.makeText(ExibirActivity@this, "Não é possível entrar com login e senha vazios", Toast.LENGTH_LONG).show()
+                Toast.makeText(MainActivity@this, "Não é possível entrar com login e senha vazios", Toast.LENGTH_LONG).show()
             }
         }
     }
