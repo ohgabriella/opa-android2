@@ -43,12 +43,12 @@ class ListActivity : AppCompatActivity() {
 
     }
 
-    private fun partItemClicked(partItem : Produto) {
-        Toast.makeText(this, "Clicked: ${partItem.nome}", Toast.LENGTH_LONG).show()
+    private fun partItemClicked(produtoItem : Produto) {
+        Toast.makeText(this, "Clicked: ${produtoItem.nome}", Toast.LENGTH_LONG).show()
 
         // Chama a outra activity, passa o ID como uma string parameter
-        val showDetailActivityIntent = Intent(this, ListActivity::class.java)
-        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, partItem.id.toString())
+        val showDetailActivityIntent = Intent(this, ExibirActivity::class.java)
+        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, produtoItem.id.toString())
         startActivity(showDetailActivityIntent)
     }
 
