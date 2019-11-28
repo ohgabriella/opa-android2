@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.opa_android2.database.ProdutoService
@@ -17,6 +18,7 @@ class ListActivity : AppCompatActivity() {
 
     lateinit var recycleListProduto: RecyclerView
     lateinit var addButton: FloatingActionButton
+    lateinit var listProdutos: List<Produto>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +27,10 @@ class ListActivity : AppCompatActivity() {
         recycleListProduto = findViewById(R.id.recycleListProduto)
         addButton = findViewById(R.id.addButton)
 
-        //listo os meus produtos
-        listarTodos()
+        listProdutos = ArrayList<Produto>()
 
-        recycleListProduto.adapter = ProdutoAdapter(listarTodos())
+        val adapter = ProdutoAdapter(listProdutos, { partItem: Produto  -> partItemClicked(partItem) })
+        recycleListProduto.adapter = adapter
         recycleListProduto.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
@@ -36,16 +38,35 @@ class ListActivity : AppCompatActivity() {
             var i = Intent(ListActivity@ this, AdicionarActivity::class.java)
             startActivity(i)
         }
+
+        listarTodos()
+
     }
 
+    private fun partItemClicked(partItem : Produto) {
+        Toast.makeText(this, "Clicked: ${partItem.nome}", Toast.LENGTH_LONG).show()
+
+        // Chama a outra activity, passa o ID como uma string parameter
+        val showDetailActivityIntent = Intent(this, ListActivity::class.java)
+        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, partItem.id.toString())
+        startActivity(showDetailActivityIntent)
+    }
 
     fun listarTodos() {
         doAsync {
-            var produtos = ProdutoService.getProdutos()
+            listProdutos = ProdutoService.getProdutos()
 
             uiThread {
-                Log.e("ListActivity", produtos.toString())
+                Log.e("ListActivity", listProdutos.toString())
+                recycleListProduto.adapter = ProdutoAdapter(listProdutos, { partItem: Produto  -> partItemClicked(partItem) })
+                recycleListProduto.adapter!!.notifyDataSetChanged()
+
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        listarTodos()
     }
 }

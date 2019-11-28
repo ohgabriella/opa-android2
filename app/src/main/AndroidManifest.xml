@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".AdicionarActivity"></activity>
+        <activity android:name=".ExibirActivity"></activity>
+        <activity android:name=".EditarActivity" />
+        <activity android:name=".AdicionarActivity" />
         <activity android:name=".ListActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
