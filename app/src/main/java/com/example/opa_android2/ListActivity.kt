@@ -40,7 +40,6 @@ class ListActivity : AppCompatActivity() {
         }
 
         listarTodos()
-
     }
 
     private fun partItemClicked(produtoItem : Produto) {
@@ -48,7 +47,7 @@ class ListActivity : AppCompatActivity() {
 
         // Chama a outra activity, passa o ID como uma string parameter
         val showDetailActivityIntent = Intent(this, ExibirActivity::class.java)
-        showDetailActivityIntent.putExtra(Intent.EXTRA_TEXT, produtoItem.id.toString())
+        showDetailActivityIntent.putExtra("produto", produtoItem)
         startActivity(showDetailActivityIntent)
     }
 
@@ -60,7 +59,6 @@ class ListActivity : AppCompatActivity() {
                 Log.e("ListActivity", listProdutos.toString())
                 recycleListProduto.adapter = ProdutoAdapter(listProdutos, { partItem: Produto  -> partItemClicked(partItem) })
                 recycleListProduto.adapter!!.notifyDataSetChanged()
-
             }
         }
     }

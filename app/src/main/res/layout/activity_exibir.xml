@@ -52,8 +52,8 @@
 
     <Button
         android:id="@+id/edtButton"
-        android:layout_width="306dp"
-        android:layout_height="45dp"
+        android:layout_width="173dp"
+        android:layout_height="51dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="52dp"
@@ -61,6 +61,23 @@
         android:text="EDITAR"
         android:textColor="#F7F8F8"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDescricao" />
+
+    <Button
+        android:id="@+id/excluirButton"
+        android:layout_width="173dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="Excluir"
+        android:textColor="#ffff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.058"
+        app:layout_constraintStart_toEndOf="@+id/edtButton"
         app:layout_constraintTop_toBottomOf="@+id/textDescricao" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

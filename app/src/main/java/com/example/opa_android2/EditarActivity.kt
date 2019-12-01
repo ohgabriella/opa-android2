@@ -42,10 +42,10 @@ class EditarActivity : AppCompatActivity() {
         }
 
         confButton.setOnClickListener{
-            produto.nome = editarNome.toString()
-            produto.preco = editarPreco.toString()
-            produto.quantidade = editarQtd.toString()
-            produto.descricao = editarDesc.toString()
+            produto.nome = editarNome.text.toString()
+            produto.preco = editarPreco.text.toString()
+            produto.quantidade = editarQtd.text.toString()
+            produto.descricao = editarDesc.text.toString()
 
             atualizarProduto(produto)
 
@@ -58,7 +58,7 @@ class EditarActivity : AppCompatActivity() {
             var produto = ProdutoService.atualizarProduto(produto)
 
             uiThread {
-                Log.e("ListActivity", produto.toString())
+                Log.e("EditarActivity", produto.toString())
             }
         }
     }
