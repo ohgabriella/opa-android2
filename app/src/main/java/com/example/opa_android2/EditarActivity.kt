@@ -1,5 +1,6 @@
 package com.example.opa_android2
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,9 +22,19 @@ class EditarActivity : AppCompatActivity() {
     lateinit var confButton: Button
     lateinit var toolbar: Toolbar
 
+
+    companion object{
+        const val RESULT_CODE_ATUALIZADO = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_editar)
+
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         editarNome = findViewById(R.id.editarNome)
         editarPreco = findViewById(R.id.editarPreco)
@@ -34,22 +45,30 @@ class EditarActivity : AppCompatActivity() {
 
         var produto = intent.getParcelableExtra<Produto>("produto")
 
-        if(produto != null) {
+        if (produto != null) {
             editarNome.setText(produto.nome)
             editarPreco.setText(produto.preco)
             editarQtd.setText(produto.quantidade)
             editarDesc.setText(produto.descricao)
         }
 
-        confButton.setOnClickListener{
+        confButton.setOnClickListener {
             produto.nome = editarNome.text.toString()
             produto.preco = editarPreco.text.toString()
             produto.quantidade = editarQtd.text.toString()
             produto.descricao = editarDesc.text.toString()
+            var i = Intent()
+            i.putExtra("produto", produto)
+            setResult(EditarActivity.RESULT_CODE_ATUALIZADO, i)
+            finish()
 
             atualizarProduto(produto)
 
-            Toast.makeText(EditarActivity@this, "Produto atualizado com sucesso!", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                EditarActivity@ this,
+                "Produto atualizado com sucesso!",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
@@ -61,5 +80,10 @@ class EditarActivity : AppCompatActivity() {
                 Log.e("EditarActivity", produto.toString())
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

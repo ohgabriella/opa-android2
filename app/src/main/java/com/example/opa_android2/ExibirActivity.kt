@@ -31,9 +31,21 @@ class ExibirActivity : AppCompatActivity() {
     lateinit var excluirButton: Button
     lateinit var toolbar: Toolbar
 
+    companion object {
+        const val REQUEST_CODE = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exibir)
+
+        toolbar = findViewById(R.id.toolbar)
+
+        setSupportActionBar(toolbar)
+
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeButtonEnabled(true)
 
         textNome = findViewById(R.id.textNome)
         textPreco = findViewById(R.id.textPreco)
@@ -60,7 +72,7 @@ class ExibirActivity : AppCompatActivity() {
         edtButton.setOnClickListener {
             var i = Intent(ExibirActivity@ this, EditarActivity::class.java)
             i.putExtra("produto", produto)
-            startActivity(i)
+            startActivityForResult(i, REQUEST_CODE)
         }
 
         excluirButton.setOnClickListener {
@@ -68,7 +80,24 @@ class ExibirActivity : AppCompatActivity() {
             var i = Intent(ExibirActivity@ this, ListActivity::class.java)
             startActivity(i)
 
-            Toast.makeText(ExibirActivity@this, "Produto excluido com sucesso!", Toast.LENGTH_LONG).show()
+            Toast.makeText(ExibirActivity@ this, "Produto excluido com sucesso!", Toast.LENGTH_LONG)
+                .show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == ExibirActivity.REQUEST_CODE && resultCode == EditarActivity.RESULT_CODE_ATUALIZADO) {
+            var produto = data?.getParcelableExtra<Produto>("produto")
+            if (produto != null) {
+                this.produto = produto
+
+                textNome.text = "Nome: ${produto.nome}"
+                textPreco.text = "Preço: ${produto.preco}"
+                textEstoque.text = "Quantidade em estoque: ${produto.quantidade}"
+                textDescricao.text = "Descrição: ${produto.descricao}"
+
+            }
         }
     }
 
@@ -95,5 +124,10 @@ class ExibirActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         getProdutoPorId(indice)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

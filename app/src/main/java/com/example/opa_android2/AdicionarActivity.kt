@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import com.example.opa_android2.database.ProdutoService
 import com.example.opa_android2.model.Produto
 import org.jetbrains.anko.doAsync
@@ -20,10 +21,16 @@ class AdicionarActivity : AppCompatActivity() {
     lateinit var inputQtd: EditText
     lateinit var inputDesc: EditText
     lateinit var cadastrarButton: Button
+    lateinit var toolbar: Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adicionar)
+
+        toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+
+        supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         inputNome = findViewById(R.id.inputNome)
         inputPreco = findViewById(R.id.inputPreco)
@@ -63,6 +70,11 @@ class AdicionarActivity : AppCompatActivity() {
                 Log.e("ListActivity", "Produto inserido com Sucesso!")
             }
         }
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }
 
